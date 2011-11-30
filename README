@@ -1,1 +1,3 @@
 see http://www.williamlong.info/archives/2049.html to learn how to deploy this script
+
+Add OAuth support instead of Basic Auth for fanfou.com will shut down Basic Auth next year.
