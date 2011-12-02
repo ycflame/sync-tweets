@@ -348,4 +348,4 @@ def parseTwitter(twitter_id,since_id="",):
 print ""
 latest=getLatest() 
 # You MUST modify your twitter username  here ##################################################
-parseTwitter(twitter_id="beyondchaos",since_id=latest)
+parseTwitter(twitter_id="username",since_id=latest)
