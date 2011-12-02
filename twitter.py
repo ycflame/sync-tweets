@@ -316,14 +316,14 @@ def parseTwitter(twitter_id,since_id="",):
 			urls = re.findall("http\S+",text) 
 			# if find some 
 			if len(urls)!=0: 
-			for url in urls: 
-				# construct the new link 
-				suburl = re.sub("t.co","233.im/tco.php",url) 
-				content = urllib2.urlopen(suburl).read() 
-				# get the origin link 
-				result = re.search("http\S+",content) 
-				# substitute the t.co link in the tweets 
-				text = re.sub(url,result.group(0),text)
+				for url in urls: 
+					# construct the new link 
+					suburl = re.sub("t.co","233.im/tco.php",url) 
+					content = urllib2.urlopen(suburl).read() 
+					# get the origin link 
+					result = re.search("http\S+",content) 
+					# substitute the t.co link in the tweets 
+					text = re.sub(url,result.group(0),text)
 
 # You MUST modify your username and password here ##############################################
 			#ret = send_sina_msgs("username@sina.com","password",text)
