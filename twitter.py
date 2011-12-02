@@ -123,6 +123,7 @@ def parseTwitter(twitter_id,since_id="",):
 					result = re.search("http\S+",content) 
 					# substitute the t.co link in the tweets 
 					text = re.sub(url,result.group(0),text)
+
 # You MUST modify your username and password here ##############################################
 			ret = send_digu_msgs("username","password",text)
 			send_fanfou_msgs(text)
