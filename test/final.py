@@ -3,7 +3,7 @@ import oauth2 as oauth
 import urllib
 
 # Create your consumer with the proper key/secret.
-consumer = oauth.Consumer(key="your_consumer_key", secret="your_consumer_secret")
+consumer = oauth.Consumer(key="d163afa0225cf50c954fe3679f63f1e5", secret="86075070f36f508aafcd1368271efa7f")
 token = oauth.Token(key="your_access_token", secret="your_access_secret")
 
 # Request token URL for Twitter.

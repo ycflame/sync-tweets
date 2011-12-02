@@ -61,7 +61,7 @@ def getLatest():
         return ""
 
 def send_fanfou_msgs(msg):
-	consumer = oauth.Consumer(key="your_consumer_key", secret="your_consumer_secret")
+	consumer = oauth.Consumer(key="d163afa0225cf50c954fe3679f63f1e5", secret="86075070f36f508aafcd1368271efa7f")
 	token = oauth.Token(key="your_access_token", secret="your_access_secret")
 	post_url = "http://api.fanfou.com/statuses/update.json"
 
