@@ -71,8 +71,8 @@ resp, content = client.request(access_token_url, "POST")
 access_token = dict(urlparse.parse_qsl(content))
 
 print "Access Token:"
-print "    - oauth_token        = %s" % access_token['oauth_token']
-print "    - oauth_token_secret = %s" % access_token['oauth_token_secret']
+print "    - access_token  = %s" % access_token['oauth_token']
+print "    - access_secret = %s" % access_token['oauth_token_secret']
 print
 print "You may now access protected resources using the access tokens above." 
 print

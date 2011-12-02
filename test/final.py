@@ -1,10 +1,10 @@
-#/usr/bin/env python
+#!/usr/bin/env python
 import oauth2 as oauth
 import urllib
 
 # Create your consumer with the proper key/secret.
 consumer = oauth.Consumer(key="d163afa0225cf50c954fe3679f63f1e5", secret="86075070f36f508aafcd1368271efa7f")
-token = oauth.Token(key="your_access_token", secret="your_access_secret")
+token = oauth.Token(key="1400079-49c02959ec2af2f023ec544e5ef4d97d", secret="8b78b12ba9258277f6bd3adb379c65e3")
 
 # Request token URL for Twitter.
 #request_token_url = "http://api.fanfou.com/account/notification.json"
