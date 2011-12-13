@@ -13,56 +13,25 @@ import htmlentitydefs
 import time
 import urllib,urllib2,Cookie
 import oauth2 as oauth
+import simplejson as json
 from google.appengine.api import urlfetch
 from google.appengine.ext import db
 
-class Twitter(db.Model):
-    id=db.StringProperty()
-    created = db.DateTimeProperty(auto_now_add=True)
-
-def make_cookie_header(cookie):
-    ret = ""
-    for val in cookie.values():
-        ret+="%s=%s; "%(val.key, val.value)
-    return ret
-
-def unescape(text):
-   """Removes HTML or XML character references 
-      and entities from a text string.
-   from Fredrik Lundh
-   http://effbot.org/zone/re-sub.htm#unescape-html
-   """
-   def fixup(m):
-       text = m.group(0)
-       if text[:2] == "&#":
-           # character reference
-           try:
-               if text[:3] == "&#x":
-                   return unichr(int(text[3:-1], 16))
-               else:
-                   return unichr(int(text[2:-1]))
-           except ValueError:
-               pass
-       else:
-           # named entity
-           try:
-               text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
-           except KeyError:
-               pass
-       return text # leave as is
-   return re.sub("&#?\w+;", fixup, text)
+class TweetID(db.Model):
+	id=db.StringProperty()
+	created = db.DateTimeProperty(auto_now_add=True)
 
 def getLatest():
-    msg=db.GqlQuery("SELECT * FROM Twitter ORDER BY created DESC")
-    x=msg.count()
-    if x:
-        return msg[0].id
-    else:
-        return ""
+	msg=db.GqlQuery("SELECT * FROM TweetID ORDER BY created DESC")
+	x=msg.count()
+	if x:
+		return msg[0].id
+	else:
+		return ""
 
 def send_fanfou_msgs(msg):
-	consumer = oauth.Consumer(key="d163afa0225cf50c954fe3679f63f1e5", secret="86075070f36f508aafcd1368271efa7f")
-	token = oauth.Token(key="your_access_token", secret="your_access_secret")
+	consumer = oauth.Consumer(key="52b62bd6315d823a32bcfe4dfaa40119", secret="62189cb88e31febd707cb8337231e18a")
+	token = oauth.Token(key="585259-1266884a0e5b978288c4aff07c9805d1", secret="cc69a9d029cdea000ebfc52e9c2119c8")
 	post_url = "http://api.fanfou.com/statuses/update.json"
 
 	client = oauth.Client(consumer, token)
@@ -94,23 +63,31 @@ def send_digu_msgs(username,password,msg):
 		return False
 
 #get one page of to user's replies, 20 messages at most. 
-def parseTwitter(twitter_id,since_id="",):
+def oauth_req(url, http_method="GET"):
+    consumer = oauth.Consumer(key = '4a9XAhTs4KDcc5DPuw27A', secret = 'HyJUY8AOQ9JP2mX5n6keRb68WSwPg3lA63Gmk5uVc')
+    token = oauth.Token(key = '284948256-otEee3ForNYRpOwUEV4y47gDHl7C15511KwmoiyT', secret = 'ZxedSOce174bfeW1r7zgbxuoXwbI7140YDXIKztitY')
+	client = oauth.Client(consumer, token)
+
+	resp, content = client.request(
+		url,
+		method=http_method,
+	}
+	return resp, content
+
+
+def getTweets(twitter_id,since_id=""):
+	url = "http://api.twitter.com/1/statuses/user_timeline.json?exclude_replies=True&screen_name=%s" % twitter_id
     if since_id:
-        url="http://twitter.com/statuses/user_timeline/%s.xml?since_id=%s"%(twitter_id,since_id)
-    else:
-        url="http://twitter.com/statuses/user_timeline/%s.xml"%(twitter_id)
+		url += "&since_id=%s" % since_id
     #print url
-    result = urlfetch.fetch(url)
-    #print result.content
-    if result.status_code == 200:
-        content=result.content
-        m= re.findall(r"(?i)<id>([^<]+)</id>\s*<text>(?!@)([^<]+)</text>", content)
-	print "<html><body><ol>"
-	for x in reversed(m):
-		id=x[0]
-		text=x[1]
-		if text.find('@') == -1 :
-			print "<li>",id,text,"</li><br />\n"
+    result, content = oauth_req(url)
+	if result['status'] != '200':
+		    raise Exception("Invalid response %s." % result['status'])
+	else:
+		tweets = json.loads(content)
+		for tweet in reversed(tweets):
+			id=tweet['id_str']
+			text=tweet['text']
 			# find all t.co links 
 			urls = re.findall("http\S+",text) 
 			# if find some 
@@ -125,17 +102,13 @@ def parseTwitter(twitter_id,since_id="",):
 					text = re.sub(url,result.group(0),text)
 
 # You MUST modify your username and password here ##############################################
-			ret = send_digu_msgs("username","password",text)
+			ret = send_digu_msgs("yangchao.cs@gmail.com","19870810",text)
 			send_fanfou_msgs(text)
-			msg=Twitter()
-			msg.id=id
-			msg.put()
-	print "</ol></body></html>"
-    else:
-        print "get twitter data error. "
-	print result.content
-        
-print ""
-latest=getLatest() 
+		msg=TweetID()
+		msg.id=id
+		msg.put()
 # You MUST modify your twitter username  here ##################################################
-parseTwitter(twitter_id="username",since_id=latest)
+#get the since_id
+latest=getLatest() 
+
+getTweets(twitter_id="beyondchaos",since_id=latest)
