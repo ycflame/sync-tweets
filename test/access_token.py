@@ -22,8 +22,8 @@ request_token_url = "http://fanfou.com/oauth/request_token"
 access_token_url = 'http://fanfou.com/oauth/access_token'
 authorize_url = 'http://fanfou.com/oauth/authorize'
 httpMethod='GET'
-consumer_key = 'd163afa0225cf50c954fe3679f63f1e5'
-consumer_secret = '86075070f36f508aafcd1368271efa7f'
+consumer_key = '52b62bd6315d823a32bcfe4dfaa40119'
+consumer_secret = '62189cb88e31febd707cb8337231e18a'
 
 consumer = oauth.Consumer(consumer_key, consumer_secret)
 client = oauth.Client(consumer)

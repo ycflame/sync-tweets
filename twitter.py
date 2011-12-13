@@ -35,7 +35,6 @@ def send_fanfou_msgs(msg):
 	post_url = "http://api.fanfou.com/statuses/update.json"
 
 	client = oauth.Client(consumer, token)
-	msg=unescape(msg)
 	form_fields = {
 			"status": msg
 			}
@@ -45,7 +44,6 @@ def send_fanfou_msgs(msg):
 def send_digu_msgs(username,password,msg):
 	auth=base64.b64encode(username+":"+password)
 	auth='Basic '+auth
-	msg=unescape(msg)
 	form_fields = {
 			"content": msg,
 			}
@@ -62,25 +60,22 @@ def send_digu_msgs(username,password,msg):
 	else:
 		return False
 
-#get one page of to user's replies, 20 messages at most. 
+# get one page of to user's replies, 20 messages at most. 
 def oauth_req(url, http_method="GET"):
-    consumer = oauth.Consumer(key = '4a9XAhTs4KDcc5DPuw27A', secret = 'HyJUY8AOQ9JP2mX5n6keRb68WSwPg3lA63Gmk5uVc')
-    token = oauth.Token(key = '284948256-otEee3ForNYRpOwUEV4y47gDHl7C15511KwmoiyT', secret = 'ZxedSOce174bfeW1r7zgbxuoXwbI7140YDXIKztitY')
+	consumer = oauth.Consumer(key='4a9XAhTs4KDcc5DPuw27A', secret='HyJUY8AOQ9JP2mX5n6keRb68WSwPg3lA63Gmk5uVc')
+	token = oauth.Token(key='284948256-otEee3ForNYRpOwUEV4y47gDHl7C15511KwmoiyT', secret='ZxedSOce174bfeW1r7zgbxuoXwbI7140YDXIKztitY')
 	client = oauth.Client(consumer, token)
 
-	resp, content = client.request(
-		url,
-		method=http_method,
-	}
+	resp, content = client.request(url, method=http_method)
 	return resp, content
 
 
 def getTweets(twitter_id,since_id=""):
 	url = "http://api.twitter.com/1/statuses/user_timeline.json?exclude_replies=True&screen_name=%s" % twitter_id
-    if since_id:
+	if since_id:
 		url += "&since_id=%s" % since_id
     #print url
-    result, content = oauth_req(url)
+	result, content = oauth_req(url)
 	if result['status'] != '200':
 		    raise Exception("Invalid response %s." % result['status'])
 	else:
@@ -102,7 +97,7 @@ def getTweets(twitter_id,since_id=""):
 					text = re.sub(url,result.group(0),text)
 
 # You MUST modify your username and password here ##############################################
-			ret = send_digu_msgs("yangchao.cs@gmail.com","19870810",text)
+		#	ret = send_digu_msgs("yangchao.cs@gmail.com","19870810",text)
 			send_fanfou_msgs(text)
 		msg=TweetID()
 		msg.id=id
