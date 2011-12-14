@@ -40,7 +40,7 @@ def send_fanfou_msgs(msg):
 			}
 	form_data = urllib.urlencode(form_fields)
 	client.request(post_url, "POST", form_data)
-	
+
 def send_digu_msgs(username,password,msg):
 	auth=base64.b64encode(username+":"+password)
 	auth='Basic '+auth
@@ -71,7 +71,7 @@ def oauth_req(url, http_method="GET"):
 
 
 def getTweets(twitter_id,since_id=""):
-	url = "http://api.twitter.com/1/statuses/user_timeline.json?exclude_replies=True&screen_name=%s" % twitter_id
+	url = "http://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&exclude_replies=true&screen_name=%s" % twitter_id
 	if since_id:
 		url += "&since_id=%s" % since_id
     #print url
@@ -83,27 +83,24 @@ def getTweets(twitter_id,since_id=""):
 		for tweet in reversed(tweets):
 			id=tweet['id_str']
 			text=tweet['text']
-			# find all t.co links 
-			urls = re.findall("http\S+",text) 
-			# if find some 
-			if len(urls)!=0: 
-				for url in urls: 
-					# construct the new link 
-					suburl = re.sub("t.co","233.im/tco.php",url) 
-					content = urllib2.urlopen(suburl).read() 
-					# get the origin link 
-					result = re.search("http\S+",content) 
+			urls = tweet['entities']['urls']
+			# if find some
+			if len(urls)!=0:
+				for url in urls:
+					# get the origin link
+					origin = url['display_url']
+					wrapped = url['url']
 					# substitute the t.co link in the tweets 
-					text = re.sub(url,result.group(0),text)
+					text = re.sub(wrapped,origin,text)
 
 # You MUST modify your username and password here ##############################################
-		#	ret = send_digu_msgs("yangchao.cs@gmail.com","19870810",text)
 			send_fanfou_msgs(text)
-		msg=TweetID()
-		msg.id=id
-		msg.put()
+			ret = send_digu_msgs("yangchao.cs@gmail.com","19870810",text)
+			msg=TweetID()
+			msg.id=id
+			msg.put()
 # You MUST modify your twitter username  here ##################################################
 #get the since_id
-latest=getLatest() 
+latest=getLatest()
 
 getTweets(twitter_id="beyondchaos",since_id=latest)
