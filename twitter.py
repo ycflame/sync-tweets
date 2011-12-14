@@ -31,7 +31,7 @@ def getLatest():
 
 def send_fanfou_msgs(msg):
 	consumer = oauth.Consumer(key="52b62bd6315d823a32bcfe4dfaa40119", secret="62189cb88e31febd707cb8337231e18a")
-	token = oauth.Token(key="585259-1266884a0e5b978288c4aff07c9805d1", secret="cc69a9d029cdea000ebfc52e9c2119c8")
+	token = oauth.Token(key="your_access_token", secret="your_access_key")
 	post_url = "http://api.fanfou.com/statuses/update.json"
 
 	client = oauth.Client(consumer, token)
@@ -62,8 +62,8 @@ def send_digu_msgs(username,password,msg):
 
 # get one page of to user's replies, 20 messages at most. 
 def oauth_req(url, http_method="GET"):
-	consumer = oauth.Consumer(key='4a9XAhTs4KDcc5DPuw27A', secret='HyJUY8AOQ9JP2mX5n6keRb68WSwPg3lA63Gmk5uVc')
-	token = oauth.Token(key='284948256-otEee3ForNYRpOwUEV4y47gDHl7C15511KwmoiyT', secret='ZxedSOce174bfeW1r7zgbxuoXwbI7140YDXIKztitY')
+	consumer = oauth.Consumer(key='your_consumer_key', secret='your_consumer_secret')
+	token = oauth.Token(key='your_access_token', secret='your_access_token_secret')
 	client = oauth.Client(consumer, token)
 
 	resp, content = client.request(url, method=http_method)
@@ -93,14 +93,13 @@ def getTweets(twitter_id,since_id=""):
 					# substitute the t.co link in the tweets 
 					text = re.sub(wrapped,origin,text)
 
-# You MUST modify your username and password here ##############################################
 			send_fanfou_msgs(text)
-			ret = send_digu_msgs("yangchao.cs@gmail.com","19870810",text)
+# You MUST modify your username and password here ##############################################
+			ret = send_digu_msgs("username","password",text)
 			msg=TweetID()
 			msg.id=id
 			msg.put()
-# You MUST modify your twitter username  here ##################################################
 #get the since_id
 latest=getLatest()
-
-getTweets(twitter_id="beyondchaos",since_id=latest)
+# You MUST modify your twitter username  here ##################################################
+getTweets(twitter_id="username",since_id=latest)
