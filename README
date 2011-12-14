@@ -4,3 +4,4 @@ This application will sync all your tweets except RT and @ to fanfou and digu, a
 
 ChangeLog:
 *Adding OAuth support instead of Basic Auth for fanfou, because fanfou.com will shut down its Basic Auth next year.
+*New version in branch single, faster and more stable.
