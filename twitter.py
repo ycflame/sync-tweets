@@ -88,7 +88,7 @@ def getTweets(twitter_id,since_id=""):
 			if len(urls)!=0:
 				for url in urls:
 					# get the origin link
-					origin = url['display_url']
+					origin = url['expanded_url']
 					wrapped = url['url']
 					# substitute the t.co link in the tweets 
 					text = re.sub(wrapped,origin,text)
