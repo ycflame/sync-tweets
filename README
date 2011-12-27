@@ -1,7 +1,7 @@
 Version 3.0
 
 ChangeLog:
-* Add OAuth support for twitter and rewrite the code resolving t.co
+* Add OAuth support for twitter and rewrite the code resolving t.co, faster and more stable.
 
 see http://ycflame.com/archives/608.html to learn how to deploy this application.
 
