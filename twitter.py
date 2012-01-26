@@ -90,6 +90,13 @@ def getTweets(twitter_id,since_id=""):
 					# get the origin link
 					origin = url['display_url']
 					wrapped = url['url']
+					if re.search("j\.mp", origin) is not None:
+                                            bitly="https://api-ssl.bitly.com/v3/expand?login=your_userid&apiKey=your_api_key&shortUrl="+origin
+                                            content = urllib2.urlopen(bitly).read()
+                                            short = json.loads(content)
+                                            if short["status_code"] == 200:
+                                                origin = short["data"]["expand"][0]["long_url"]
+
 					# substitute the t.co link in the tweets 
 					text = re.sub(wrapped,origin,text)
 
