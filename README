@@ -2,10 +2,8 @@ Version 2.0
 
 ChangeLog:
 * Adding OAuth support instead of Basic Auth for fanfou, because fanfou.com will shut down its Basic Auth next year.
-* Version 3.0 in branch "single", faster and more stable, but a little harder to deploy.
 
 see http://ycflame.com/archives/540.html to learn how to deploy this application.
 
 This application will sync all your tweets except RT and @ to fanfou and digu, and then to the big four SNS platforms in China —— Sina microblog, Tecent microblog, Douban and Renren.
-
 
