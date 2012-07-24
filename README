@@ -5,6 +5,8 @@ ChangeLog:
 
 see http://ycflame.com/archives/608.html to learn how to deploy this application.
 
-This application will sync all your tweets except RT and @ to fanfou and digu, and then to the big four SNS platforms in China —— Sina microblog, Tecent microblog, Douban and Renren.
+This application will sync all your tweets except RT and @ to fanfou and digu, and then to the big four SNS platforms 
+
+in China —— Sina microblog, Tencent microblog, Douban and Renren.
 
 
